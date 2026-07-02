@@ -1,40 +1,47 @@
-// Wortlaut des Trainerkodex. PLATZHALTER — noch durch den echten Text ersetzen!
+// Wortlaut des Trainerkodex, übernommen aus "Verhaltenskodex für Trainer_Funktionäre.docx"
+// (1. SC 1911 Heilbad Heiligenstadt). Die Unterschriftszeile des Papierformulars
+// ("Ort und Datum" / "Unterschrift Trainer*in / Funktionär*in") ist bewusst nicht
+// übernommen — das übernimmt das digitale Formular (Name + Canvas-Unterschrift) in app.js.
 //
 // KODEX_IS_PLACEHOLDER steuert den Warn-Banner in der App (app.js/index.html).
-// Auf false setzen, sobald KODEX_HTML den echten, finalen Text enthält.
 //
 // KODEX_VERSION wird bei jeder Bestätigung mit gespeichert (appData.bestaetigungen[user].kodexVersion).
 // Bei inhaltlichen Änderungen am Kodex sollte diese Nummer erhöht werden — dient
 // als Nachweis, welchen Stand jemand tatsächlich bestätigt hat.
-const KODEX_IS_PLACEHOLDER = true;
+const KODEX_IS_PLACEHOLDER = false;
 const KODEX_VERSION = "1.0";
 
 const KODEX_HTML = `
-  <p><strong>Hinweis: Dies ist noch Platzhaltertext.</strong> Der tatsächliche Wortlaut
-  des Verhaltenskodex für Trainer:innen und Funktionäre des 1. SC 1911 Heiligenstadt
-  muss hier noch eingesetzt werden (z.B. aus dem bestehenden "Konzeptpapier
-  Nachwuchsförderung").</p>
+  <p class="muted">1. SC 1911 Heilbad Heiligenstadt — Verhaltenskodex für Trainer/Funktionäre</p>
 
-  <h3>1. Vorbildfunktion</h3>
-  <p>Platzhalter: Trainer:innen und Funktionäre verhalten sich gegenüber Spieler:innen,
-  Eltern, Schiedsrichter:innen und anderen Vereinen jederzeit fair, respektvoll und
-  vorbildlich.</p>
+  <h3>Respekt und Würde</h3>
+  <p>Ich behandle alle Kinder und Jugendlichen mit Respekt und Wertschätzung. Ich verzichte
+  auf jegliche Form von Diskriminierung und fördere ein positives, faires Miteinander.</p>
 
-  <h3>2. Kinder- und Jugendschutz</h3>
-  <p>Platzhalter: Der Schutz der uns anvertrauten Kinder und Jugendlichen hat oberste
-  Priorität. Grenzverletzungen jeder Art werden nicht toleriert.</p>
+  <h3>Vertraulichkeit</h3>
+  <p>Ich gehe verantwortungsvoll mit persönlichen Informationen der Kinder und Jugendlichen
+  um. Sensible Daten werden vertraulich behandelt und nur mit Zustimmung weitergegeben.</p>
 
-  <h3>3. Fairness und Chancengleichheit</h3>
-  <p>Platzhalter: Alle Spieler:innen werden unabhängig von Herkunft, Geschlecht,
-  Leistungsstärke oder Religion gleich behandelt und gefördert.</p>
+  <h3>Prävention von Gewalt und Missbrauch</h3>
+  <p>Ich dulde keine Form von Gewalt, Missbrauch oder Diskriminierung. Ich melde
+  Verdachtsfälle umgehend an die zuständigen Personen, um Kinder und Jugendliche zu
+  schützen.</p>
 
-  <h3>4. Kommunikation</h3>
-  <p>Platzhalter: Kritik wird sachlich und wertschätzend geäußert, Konflikte werden
-  offen und zeitnah angesprochen statt ausgesessen.</p>
+  <h3>Grenzen wahren</h3>
+  <p>Ich respektiere die körperlichen und emotionalen Grenzen von Kindern und
+  Jugendlichen. Ich verhalte mich jederzeit angemessen und wahre professionelle
+  Distanz.</p>
 
-  <h3>5. Verschwiegenheit und Datenschutz</h3>
-  <p>Platzhalter: Persönliche Daten von Spieler:innen und deren Familien werden
-  vertraulich behandelt und nur für vereinsinterne Zwecke genutzt.</p>
+  <h3>Vorbildfunktion</h3>
+  <p>Ich bin mir meiner Vorbildfunktion bewusst. Ich handle stets ehrlich,
+  verantwortungsbewusst und integer - sowohl auf als auch neben dem Platz.</p>
 
-  <p><em>Ende des Platzhaltertexts — bitte vor Livegang ersetzen.</em></p>
+  <h3>Kommunikation und Transparenz</h3>
+  <p>Ich kommuniziere offen, ehrlich und respektvoll mit Kindern, Jugendlichen und
+  Eltern. Ich biete regelmäßige Gespräche an, um das Vertrauen und Verständnis
+  untereinander zu fördern.</p>
+
+  <h3>Schutz und Sicherheit</h3>
+  <p>Ich setze mich aktiv für ein sicheres Umfeld im Verein ein. Ich trage dazu bei,
+  dass alle Kinder und Jugendlichen sich geschützt und respektiert fühlen.</p>
 `;
