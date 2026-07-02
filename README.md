@@ -18,8 +18,11 @@ Heiligenstadt.
 - Wer schon bestätigt hat, sieht beim erneuten Öffnen eine Quittung mit Datum
   und der eigenen Unterschrift statt erneut das Formular.
 
-### Bestätigungsübersicht
-- Liste aller bereits abgegebenen Bestätigungen (Name + Datum).
+### Bestätigungsübersicht (nur Admins)
+- Liste aller bereits abgegebenen Bestätigungen (Name + Datum) in einem eigenen
+  Einstellungen-Tab.
+- Einzelne oder alle Bestätigungen löschen, zusätzlich durch ein zentrales
+  Aktions-Passwort serverseitig geschützt (nicht nur über die Oberfläche).
 
 ### Daten & Speicherung
 - Automatische Nextcloud-Synchronisierung über die zentrale Anmeldung in der

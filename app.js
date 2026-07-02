@@ -119,31 +119,15 @@ function renderOwnStatus() {
 // oder löschen (nie ein blindes "alles überschreiben" der fremden Zwischenänderung).
 async function saveWithConflictRetry(mutate) {
   mutate(appData);
-  const revBeforeRetry = gatewayRev;
   try {
     await gatewaySave(appData);
   } catch (e) {
     if (!(e instanceof ConflictError)) throw e;
     const data = await gatewayLoad();
-    const revAfterReload = gatewayRev;
     appData = data && typeof data === "object" ? data : { bestaetigungen: {} };
     if (!appData.bestaetigungen) appData.bestaetigungen = {};
     mutate(appData);
-    try {
-      await gatewaySave(appData);
-    } catch (e2) {
-      if (e2 instanceof ConflictError) {
-        // Diagnose-Ausgabe (temporär, siehe CLAUDE.md): zwei Konflikte in Folge trotz
-        // frisch geladenem Stand deuten eher auf ein ETag/Cache-Problem der Nextcloud
-        // hin als auf echten Parallelzugriff — die rev-Werte helfen das einzugrenzen.
-        throw new ConflictError(
-          `Daten wurden zwischenzeitlich von einem anderen Gerät geändert ` +
-          `(Diagnose: rev vor Neuladen = ${JSON.stringify(revBeforeRetry)}, ` +
-          `rev nach Neuladen = ${JSON.stringify(revAfterReload)})`
-        );
-      }
-      throw e2;
-    }
+    await gatewaySave(appData);
   }
 }
 

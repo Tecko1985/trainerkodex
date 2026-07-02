@@ -1,106 +1,35 @@
-const APP_VERSION = "1.8";
+const APP_VERSION = "1.0";
 
 const APP_CHANGELOG = [
-  {
-    version: "1.8",
-    groups: [
-      {
-        title: "Layout",
-        items: [
-          "Scrollbalken beim Kodex-Text ist jetzt immer sichtbar (blau eingefärbt), statt von Windows automatisch ausgeblendet zu werden."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.7",
-    groups: [
-      {
-        title: "Sonstiges",
-        items: [
-          "Vereinswappen im Header ergänzt."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.6",
-    groups: [
-      {
-        title: "Diagnose",
-        items: [
-          "Fehlermeldung beim Löschen zeigt bei wiederholtem Konflikt zusätzlich die technischen Versions-Kennungen (zur Fehlersuche, wird später wieder entfernt)."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.5",
-    groups: [
-      {
-        title: "Bestätigungsübersicht",
-        items: [
-          "Löschen (einzeln und gesammelt) verlangt jetzt zusätzlich ein zentrales Aktions-Passwort, serverseitig geprüft — nicht mehr nur über die Oberfläche geschützt."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.4",
-    groups: [
-      {
-        title: "Bestätigungsübersicht",
-        items: [
-          "Admins können einzelne Bestätigungen löschen (Button je Zeile).",
-          "Admins können alle Bestätigungen auf einmal löschen (Button \"Alle löschen\")."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.3",
-    groups: [
-      {
-        title: "Vorbelegung",
-        items: [
-          "Vor- und Nachname werden jetzt mit dem echten Namen aus dem Nutzerkonto vorbelegt statt nur aus dem Nutzernamen geraten (sobald das Gateway-Update deployt ist)."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.2",
-    groups: [
-      {
-        title: "Layout",
-        items: [
-          "Einstellungen-Button steht jetzt rechts in der Navigation (wie in der Tools-Übersicht).",
-          "Versionshistorie ist in den Einstellungen-Tab umgezogen."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.1",
-    groups: [
-      {
-        title: "Bestätigungsübersicht",
-        items: [
-          "Die Liste aller Bestätigungen ist jetzt in einem eigenen Einstellungen-Tab und nur für Admins sichtbar (wie beim Admin-Bereich der Tools-Übersicht). Reguläre Trainer:innen sehen weiterhin nur die eigene Bestätigung."
-        ]
-      }
-    ]
-  },
   {
     version: "1.0",
     groups: [
       {
-        title: "Trainerkodex",
+        title: "Kodex bestätigen",
         items: [
           "Verhaltenskodex zum Lesen direkt in der Seite, Bestätigung per Name und digitaler Unterschrift.",
-          "Automatische Nextcloud-Synchronisierung über die zentrale Anmeldung (Tools-Übersicht) — kein Passwort auf dem Gerät nötig.",
-          "Wer schon bestätigt hat, sieht beim erneuten Öffnen eine Quittung mit Datum und Unterschrift statt erneut das Formular.",
-          "Übersicht aller bereits abgegebenen Bestätigungen."
+          "Vor- und Nachname werden automatisch aus dem Nutzerkonto vorbelegt (bleiben editierbar).",
+          "Wer schon bestätigt hat, sieht beim erneuten Öffnen eine Quittung mit Datum und Unterschrift statt erneut das Formular."
+        ]
+      },
+      {
+        title: "Anmeldung & Speicherung",
+        items: [
+          "Automatische Nextcloud-Synchronisierung über die zentrale Anmeldung (Tools-Übersicht) — kein separates Passwort auf dem Gerät nötig."
+        ]
+      },
+      {
+        title: "Bestätigungsübersicht (nur Admins)",
+        items: [
+          "Übersicht aller abgegebenen Bestätigungen in einem eigenen Einstellungen-Tab.",
+          "Einzelne oder alle Bestätigungen löschen, zusätzlich durch ein zentrales Aktions-Passwort serverseitig geschützt."
+        ]
+      },
+      {
+        title: "Sonstiges",
+        items: [
+          "Vereinswappen im Header.",
+          "Scrollbalken beim Kodex-Text immer sichtbar."
         ]
       }
     ]
