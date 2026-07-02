@@ -1,6 +1,17 @@
-const APP_VERSION = "1.7";
+const APP_VERSION = "1.8";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.8",
+    groups: [
+      {
+        title: "Layout",
+        items: [
+          "Scrollbalken beim Kodex-Text ist jetzt immer sichtbar (blau eingefärbt), statt von Windows automatisch ausgeblendet zu werden."
+        ]
+      }
+    ]
+  },
   {
     version: "1.7",
     groups: [

@@ -158,7 +158,13 @@ button.btn:disabled { opacity: 0.6; cursor: default; }
   border-radius: 8px;
   font-size: 14px;
   line-height: 1.7;
+  scrollbar-width: thin;
+  scrollbar-color: var(--blue) var(--border);
 }
+.kodex-text::-webkit-scrollbar { width: 10px; }
+.kodex-text::-webkit-scrollbar-track { background: var(--border); border-radius: 8px; }
+.kodex-text::-webkit-scrollbar-thumb { background-color: var(--blue); border-radius: 8px; }
+.kodex-text::-webkit-scrollbar-thumb:hover { background-color: #14468a; }
 .kodex-text h3 { margin: 14px 0 6px; color: var(--blue); font-size: 15px; }
 .kodex-text h3:first-child { margin-top: 0; }
 .kodex-text p { margin-bottom: 10px; }
