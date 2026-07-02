@@ -1,6 +1,18 @@
-const APP_VERSION = "1.3";
+const APP_VERSION = "1.4";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.4",
+    groups: [
+      {
+        title: "Bestätigungsübersicht",
+        items: [
+          "Admins können einzelne Bestätigungen löschen (Button je Zeile).",
+          "Admins können alle Bestätigungen auf einmal löschen (Button \"Alle löschen\")."
+        ]
+      }
+    ]
+  },
   {
     version: "1.3",
     groups: [

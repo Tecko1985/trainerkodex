@@ -49,14 +49,25 @@ function renderChangelog() {
   `).join("");
 }
 
+function showUebersichtError(msg) {
+  const el = document.getElementById("uebersicht-error");
+  el.textContent = msg || "";
+  el.style.display = msg ? "block" : "none";
+}
+
 function renderUebersicht() {
-  const rows = Object.values(appData.bestaetigungen || {})
+  const rows = Object.entries(appData.bestaetigungen || {})
+    .map(([username, r]) => Object.assign({ username }, r))
     .sort((a, b) => String(b.datum || "").localeCompare(String(a.datum || "")));
   document.getElementById("uebersicht-empty").style.display = rows.length ? "none" : "block";
+  document.getElementById("btn-delete-all").style.display = rows.length ? "" : "none";
   document.getElementById("uebersicht-rows").innerHTML = rows.map((r) => `
     <div class="confirm-row">
-      <span class="confirm-name">${escapeHtml(r.vorname + " " + r.nachname)}</span>
-      <span class="muted">${escapeHtml(fmtDate(r.datum))}</span>
+      <div class="confirm-row-info">
+        <span class="confirm-name">${escapeHtml(r.vorname + " " + r.nachname)}</span>
+        <span class="muted">${escapeHtml(fmtDate(r.datum))}</span>
+      </div>
+      <button type="button" class="btn secondary small btn-delete-row" data-username="${escapeHtml(r.username)}">Löschen</button>
     </div>
   `).join("");
 }
@@ -102,6 +113,24 @@ function renderOwnStatus() {
   }
 }
 
+// Wendet mutate() auf appData an und speichert. Bei Konflikt (409) wird der aktuelle
+// Remote-Stand nachgeladen und dieselbe Mutation erneut angewendet, bevor erneut
+// gespeichert wird — sicher für Mutationen, die nur einen bekannten Schlüssel setzen
+// oder löschen (nie ein blindes "alles überschreiben" der fremden Zwischenänderung).
+async function saveWithConflictRetry(mutate) {
+  mutate(appData);
+  try {
+    await gatewaySave(appData);
+  } catch (e) {
+    if (!(e instanceof ConflictError)) throw e;
+    const data = await gatewayLoad();
+    appData = data && typeof data === "object" ? data : { bestaetigungen: {} };
+    if (!appData.bestaetigungen) appData.bestaetigungen = {};
+    mutate(appData);
+    await gatewaySave(appData);
+  }
+}
+
 async function submitConfirmation() {
   const vorname = document.getElementById("f-vorname").value.trim();
   const nachname = document.getElementById("f-nachname").value.trim();
@@ -117,38 +146,50 @@ async function submitConfirmation() {
   btn.disabled = true;
   btn.textContent = "Wird gespeichert…";
 
-  appData.bestaetigungen[currentUsername] = entry;
-
   try {
-    await gatewaySave(appData);
+    await saveWithConflictRetry((data) => { data.bestaetigungen[currentUsername] = entry; });
   } catch (e) {
-    if (e instanceof ConflictError) {
-      // Nur der eigene Schlüssel wurde verändert -> nach Neuladen einfach erneut
-      // draufsetzen und speichern, statt die gerade abgegebene Bestätigung zu verwerfen.
-      try {
-        const data = await gatewayLoad();
-        appData = data && typeof data === "object" ? data : { bestaetigungen: {} };
-        if (!appData.bestaetigungen) appData.bestaetigungen = {};
-        appData.bestaetigungen[currentUsername] = entry;
-        await gatewaySave(appData);
-      } catch (e2) {
-        btn.disabled = false;
-        btn.textContent = "Ich bestätige";
-        showFormError("Speichern fehlgeschlagen: " + e2.message);
-        return;
-      }
-    } else {
-      btn.disabled = false;
-      btn.textContent = "Ich bestätige";
-      showFormError("Speichern fehlgeschlagen: " + e.message);
-      return;
-    }
+    btn.disabled = false;
+    btn.textContent = "Ich bestätige";
+    showFormError("Speichern fehlgeschlagen: " + e.message);
+    return;
   }
 
   btn.disabled = false;
   btn.textContent = "Ich bestätige";
   renderOwnStatus();
   if (currentIsAdmin) renderUebersicht();
+}
+
+async function deleteConfirmation(username) {
+  const entry = appData.bestaetigungen[username];
+  if (!entry) return;
+  const name = `${entry.vorname} ${entry.nachname}`.trim() || username;
+  if (!confirm(`Bestätigung von ${name} wirklich löschen?`)) return;
+  showUebersichtError("");
+  try {
+    await saveWithConflictRetry((data) => { delete data.bestaetigungen[username]; });
+  } catch (e) {
+    showUebersichtError("Löschen fehlgeschlagen: " + e.message);
+    return;
+  }
+  renderUebersicht();
+  if (username === currentUsername) renderOwnStatus();
+}
+
+async function deleteAllConfirmations() {
+  const count = Object.keys(appData.bestaetigungen || {}).length;
+  if (!count) return;
+  if (!confirm(`Wirklich alle ${count} Bestätigungen löschen? Das kann nicht rückgängig gemacht werden.`)) return;
+  showUebersichtError("");
+  try {
+    await saveWithConflictRetry((data) => { data.bestaetigungen = {}; });
+  } catch (e) {
+    showUebersichtError("Löschen fehlgeschlagen: " + e.message);
+    return;
+  }
+  renderUebersicht();
+  renderOwnStatus();
 }
 
 function startApp() {
@@ -176,6 +217,12 @@ async function init() {
   sigPad = createSignaturePad(document.getElementById("sig-canvas"), () => {});
   document.getElementById("btn-sig-clear").addEventListener("click", () => sigPad.clear());
   document.getElementById("btn-submit").addEventListener("click", submitConfirmation);
+
+  document.getElementById("btn-delete-all").addEventListener("click", deleteAllConfirmations);
+  document.getElementById("uebersicht-rows").addEventListener("click", (e) => {
+    const btn = e.target.closest(".btn-delete-row");
+    if (btn) deleteConfirmation(btn.dataset.username);
+  });
 
   if (!getSessionToken()) {
     showConnectScreen();
