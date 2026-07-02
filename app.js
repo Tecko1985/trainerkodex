@@ -1,5 +1,6 @@
 let appData = { bestaetigungen: {} };
 let currentUsername = null;
+let currentIsAdmin = false;
 let sigPad = null;
 
 function escapeHtml(s) {
@@ -55,6 +56,21 @@ function renderUebersicht() {
       <span class="muted">${escapeHtml(fmtDate(r.datum))}</span>
     </div>
   `).join("");
+}
+
+function activateTab(name) {
+  document.querySelectorAll("nav button[data-tab]").forEach((b) => b.classList.remove("active"));
+  document.querySelectorAll(".tab-section").forEach((s) => s.classList.remove("active"));
+  const btn = document.querySelector('nav button[data-tab="' + name + '"]');
+  if (btn) btn.classList.add("active");
+  const section = document.getElementById("tab-" + name);
+  if (section) section.classList.add("active");
+}
+
+function setupTabs() {
+  document.querySelectorAll("nav button[data-tab]").forEach((btn) => {
+    btn.addEventListener("click", () => activateTab(btn.dataset.tab));
+  });
 }
 
 function showFormError(msg) {
@@ -129,7 +145,7 @@ async function submitConfirmation() {
   btn.disabled = false;
   btn.textContent = "Ich bestätige";
   renderOwnStatus();
-  renderUebersicht();
+  if (currentIsAdmin) renderUebersicht();
 }
 
 function startApp() {
@@ -152,6 +168,7 @@ async function init() {
   document.getElementById("version-badge-2").textContent = "v" + APP_VERSION;
   renderKodexText();
   renderChangelog();
+  setupTabs();
 
   sigPad = createSignaturePad(document.getElementById("sig-canvas"), () => {});
   document.getElementById("btn-sig-clear").addEventListener("click", () => sigPad.clear());
@@ -165,12 +182,14 @@ async function init() {
   try {
     const me = await fetchMe();
     currentUsername = me.username;
+    currentIsAdmin = !!me.isAdmin;
+    document.getElementById("nav-einstellungen").style.display = currentIsAdmin ? "" : "none";
     const data = await gatewayLoad();
     appData = data && typeof data === "object" ? data : { bestaetigungen: {} };
     if (!appData.bestaetigungen) appData.bestaetigungen = {};
     startApp();
     renderOwnStatus();
-    renderUebersicht();
+    if (currentIsAdmin) renderUebersicht();
   } catch (e) {
     if (e instanceof NotLoggedInError) {
       showConnectScreen();

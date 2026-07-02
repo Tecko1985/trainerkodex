@@ -1,6 +1,17 @@
-const APP_VERSION = "1.0";
+const APP_VERSION = "1.1";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.1",
+    groups: [
+      {
+        title: "Bestätigungsübersicht",
+        items: [
+          "Die Liste aller Bestätigungen ist jetzt in einem eigenen Einstellungen-Tab und nur für Admins sichtbar (wie beim Admin-Bereich der Tools-Übersicht). Reguläre Trainer:innen sehen weiterhin nur die eigene Bestätigung."
+        ]
+      }
+    ]
+  },
   {
     version: "1.0",
     groups: [
