@@ -1,6 +1,17 @@
-const APP_VERSION = "1.5";
+const APP_VERSION = "1.6";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.6",
+    groups: [
+      {
+        title: "Diagnose",
+        items: [
+          "Fehlermeldung beim Löschen zeigt bei wiederholtem Konflikt zusätzlich die technischen Versions-Kennungen (zur Fehlersuche, wird später wieder entfernt)."
+        ]
+      }
+    ]
+  },
   {
     version: "1.5",
     groups: [
