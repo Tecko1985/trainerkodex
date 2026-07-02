@@ -1,6 +1,18 @@
-const APP_VERSION = "1.1";
+const APP_VERSION = "1.2";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.2",
+    groups: [
+      {
+        title: "Layout",
+        items: [
+          "Einstellungen-Button steht jetzt rechts in der Navigation (wie in der Tools-Übersicht).",
+          "Versionshistorie ist in den Einstellungen-Tab umgezogen."
+        ]
+      }
+    ]
+  },
   {
     version: "1.1",
     groups: [
