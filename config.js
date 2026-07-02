@@ -1,6 +1,17 @@
-const APP_VERSION = "1.2";
+const APP_VERSION = "1.3";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.3",
+    groups: [
+      {
+        title: "Vorbelegung",
+        items: [
+          "Vor- und Nachname werden jetzt mit dem echten Namen aus dem Nutzerkonto vorbelegt statt nur aus dem Nutzernamen geraten (sobald das Gateway-Update deployt ist)."
+        ]
+      }
+    ]
+  },
   {
     version: "1.2",
     groups: [

@@ -1,6 +1,8 @@
 let appData = { bestaetigungen: {} };
 let currentUsername = null;
 let currentIsAdmin = false;
+let currentVorname = null;
+let currentNachname = null;
 let sigPad = null;
 
 function escapeHtml(s) {
@@ -16,10 +18,11 @@ function fmtDate(iso) {
   return d.toLocaleDateString("de-DE") + ", " + d.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" }) + " Uhr";
 }
 
-// Bestenfalls-Ableitung eines Anzeigenamens aus dem username (Format "vorname.nachname",
-// siehe generateUsername() in admin-worker.js). Nur eine Vorbelegung — die Felder
-// bleiben editierbar, da Umlaute/Sonderzeichen beim Erzeugen des username verlustbehaftet
-// transliteriert werden (z.B. ö -> o) und Kollisions-Suffixe angehängt sein können.
+// Fallback, falls der Gateway (noch) kein vorname/nachname liefert (älterer, noch nicht
+// neu deployter admin-worker.js). Rät den Namen aus dem username (Format "vorname.nachname",
+// siehe generateUsername() in admin-worker.js) — verlustbehaftet, da Umlaute/Sonderzeichen
+// bei der username-Erzeugung transliteriert werden (z.B. ö -> o) und Kollisions-Suffixe
+// angehängt sein können. Wird nur benutzt, wenn me() keine echten Namen liefert.
 function deriveNameFromUsername(username) {
   const parts = String(username || "").split(".");
   const cap = (s) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
@@ -93,9 +96,9 @@ function renderOwnStatus() {
   } else {
     document.getElementById("view-form").style.display = "block";
     document.getElementById("view-receipt").style.display = "none";
-    const { vorname, nachname } = deriveNameFromUsername(currentUsername);
-    document.getElementById("f-vorname").value = vorname;
-    document.getElementById("f-nachname").value = nachname;
+    const fallback = deriveNameFromUsername(currentUsername);
+    document.getElementById("f-vorname").value = currentVorname || fallback.vorname;
+    document.getElementById("f-nachname").value = currentNachname || fallback.nachname;
   }
 }
 
@@ -183,6 +186,8 @@ async function init() {
     const me = await fetchMe();
     currentUsername = me.username;
     currentIsAdmin = !!me.isAdmin;
+    currentVorname = me.vorname || null;
+    currentNachname = me.nachname || null;
     document.getElementById("nav-einstellungen").style.display = currentIsAdmin ? "" : "none";
     const data = await gatewayLoad();
     appData = data && typeof data === "object" ? data : { bestaetigungen: {} };
