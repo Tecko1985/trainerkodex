@@ -161,10 +161,28 @@ async function submitConfirmation() {
   if (currentIsAdmin) renderUebersicht();
 }
 
+// Fragt das zentrale Aktions-Passwort ab und lässt es serverseitig prüfen (siehe
+// verifyActionPassword in db.js, Scope "trainerkodex-loeschen" im landingpage-Worker).
+// true = weitermachen; Meldungen (falsches Passwort, Worker noch nicht deployt) kommen von hier.
+async function askAndVerifyActionPassword(promptText) {
+  const pw = prompt(promptText);
+  if (pw === null) return false;
+  let ok;
+  try {
+    ok = await verifyActionPassword("trainerkodex-loeschen", pw);
+  } catch (e) {
+    alert(e.message);
+    return false;
+  }
+  if (!ok) alert("Falsches Passwort.");
+  return ok;
+}
+
 async function deleteConfirmation(username) {
   const entry = appData.bestaetigungen[username];
   if (!entry) return;
   const name = `${entry.vorname} ${entry.nachname}`.trim() || username;
+  if (!(await askAndVerifyActionPassword(`Passwort eingeben, um die Bestätigung von ${name} zu löschen:`))) return;
   if (!confirm(`Bestätigung von ${name} wirklich löschen?`)) return;
   showUebersichtError("");
   try {
@@ -180,6 +198,7 @@ async function deleteConfirmation(username) {
 async function deleteAllConfirmations() {
   const count = Object.keys(appData.bestaetigungen || {}).length;
   if (!count) return;
+  if (!(await askAndVerifyActionPassword(`Passwort eingeben, um alle ${count} Bestätigungen zu löschen:`))) return;
   if (!confirm(`Wirklich alle ${count} Bestätigungen löschen? Das kann nicht rückgängig gemacht werden.`)) return;
   showUebersichtError("");
   try {

@@ -1,6 +1,17 @@
-const APP_VERSION = "1.4";
+const APP_VERSION = "1.5";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.5",
+    groups: [
+      {
+        title: "Bestätigungsübersicht",
+        items: [
+          "Löschen (einzeln und gesammelt) verlangt jetzt zusätzlich ein zentrales Aktions-Passwort, serverseitig geprüft — nicht mehr nur über die Oberfläche geschützt."
+        ]
+      }
+    ]
+  },
   {
     version: "1.4",
     groups: [

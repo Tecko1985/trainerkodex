@@ -1,7 +1,6 @@
 // Persistenz über das zentrale ToolsUebersicht-Login-Gateway.
 // Adaptiert aus E:\TrainerCheckliste\db.js (gleiches Gateway-Muster), ohne
-// FileStore/lokalen WebDAV-Modus und ohne verify-action-password — Trainerkodex
-// hatte nie einen lokalen Modus und braucht (Stand v1) keine Sperr-Aktion.
+// FileStore/lokalen WebDAV-Modus — Trainerkodex hatte nie einen lokalen Modus.
 const GATEWAY_URL = "https://landingpage.michel-brunner.workers.dev";
 const TOKEN_STORAGE_KEY = "tu_session_token";
 const GATEWAY_APP_ID = "trainerkodex";
@@ -56,9 +55,33 @@ async function gatewaySave(dataObj) {
   gatewayRev = typeof body.rev === "string" ? body.rev : null;
 }
 
-// Liefert {username, isAdmin, groupIds} der eingeloggten Person. Kein Vor-/Nachname
-// enthalten (admin-worker.js gibt das über "me" nicht raus) — der Anzeigename kommt
-// daher aus dem Formular, bestenfalls aus dem username vorbelegt.
+// Liefert {username, isAdmin, groupIds, vorname, nachname} der eingeloggten Person
+// (vorname/nachname können null sein, falls der Worker noch nicht auf dem Stand ist,
+// der sie mitliefert — siehe deriveNameFromUsername()-Fallback in app.js).
 async function fetchMe() {
   return gatewayRequest({ action: "me" });
+}
+
+// Serverseitige Prüfung eines Aktions-Passworts (z.B. Bestätigungen löschen). Das
+// Passwort liegt als Worker-Secret im landingpage-Worker, nicht im Quellcode.
+// Bewusst ohne Login-Token (die Aktion ist im Worker nicht an eine Sitzung gebunden).
+// Gibt true/false zurück; wirft, wenn die Prüfung selbst nicht möglich ist.
+async function verifyActionPassword(scope, password) {
+  let resp;
+  try {
+    resp = await fetch(GATEWAY_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action: "verify-action-password", scope, password })
+    });
+  } catch (_) {
+    throw new Error("Keine Verbindung zum Server — Passwortprüfung nicht möglich.");
+  }
+  if (resp.status === 403) return false;
+  if (resp.ok) return true;
+  const body = await resp.json().catch(() => ({}));
+  if (resp.status === 400 && body.error === "Unbekannte Aktion") {
+    throw new Error("Der Server kennt die Passwortprüfung noch nicht — das Worker-Update (landingpage) muss erst deployed werden.");
+  }
+  throw new Error(body.error || ("Passwortprüfung fehlgeschlagen (HTTP " + resp.status + ")"));
 }
