@@ -1,6 +1,17 @@
-const APP_VERSION = "1.0";
+const APP_VERSION = "1.1";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.1",
+    groups: [
+      {
+        title: "Navigation",
+        items: [
+          "Link „Zurück zum Dashboard" oben auf der Seite ergänzt (Öffnen erfolgt jetzt im selben Tab statt in einem neuen)."
+        ]
+      }
+    ]
+  },
   {
     version: "1.0",
     groups: [

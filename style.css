@@ -207,3 +207,15 @@ button.btn:disabled { opacity: 0.6; cursor: default; }
 }
 .confirm-row .confirm-name { font-weight: 700; }
 .confirm-row-info { display: flex; flex-direction: column; gap: 2px; }
+
+.dashboard-bar { max-width: 760px; margin: 0 auto; padding: 10px 16px 0; }
+.back-to-dashboard {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--blue);
+  text-decoration: none;
+}
+.back-to-dashboard:hover { text-decoration: underline; }
