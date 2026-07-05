@@ -249,13 +249,15 @@ async function init() {
   }
 
   try {
-    const me = await fetchMe();
+    // fetchMe() (Identität) und gatewayLoad() (Kodex-Bestätigungen) sind
+    // unabhängige Worker-Aufrufe — parallel statt seriell spart einen
+    // kompletten Roundtrip vorm ersten sichtbaren Inhalt.
+    const [me, data] = await Promise.all([fetchMe(), gatewayLoad()]);
     currentUsername = me.username;
     currentIsAdmin = !!me.isAdmin;
     currentVorname = me.vorname || null;
     currentNachname = me.nachname || null;
     document.getElementById("nav-einstellungen").style.display = currentIsAdmin ? "" : "none";
-    const data = await gatewayLoad();
     appData = data && typeof data === "object" ? data : { bestaetigungen: {} };
     if (!appData.bestaetigungen) appData.bestaetigungen = {};
     startApp();
