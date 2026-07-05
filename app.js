@@ -93,6 +93,16 @@ function showFormError(msg) {
   el.style.display = msg ? "block" : "none";
 }
 
+function renderHeaderUser() {
+  const el = document.getElementById("header-user");
+  if (!el) return;
+  if (!currentUsername) { el.textContent = ""; return; }
+  const name = (currentVorname || currentNachname)
+    ? `${currentVorname || ""} ${currentNachname || ""}`.trim()
+    : currentUsername;
+  el.textContent = "👤 " + name + (currentIsAdmin ? " (Admin)" : "");
+}
+
 function renderOwnStatus() {
   const mine = appData.bestaetigungen[currentUsername];
   showFormError("");
@@ -261,6 +271,7 @@ async function init() {
     appData = data && typeof data === "object" ? data : { bestaetigungen: {} };
     if (!appData.bestaetigungen) appData.bestaetigungen = {};
     startApp();
+    renderHeaderUser();
     renderOwnStatus();
     if (currentIsAdmin) renderUebersicht();
   } catch (e) {

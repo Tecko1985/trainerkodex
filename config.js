@@ -1,6 +1,17 @@
-const APP_VERSION = "1.1";
+const APP_VERSION = "1.2";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.2",
+    groups: [
+      {
+        title: "Navigation",
+        items: [
+          "Der Header zeigt jetzt (wie in den anderen Vereins-Tools) den eigenen Namen an, solange man angemeldet ist."
+        ]
+      }
+    ]
+  },
   {
     version: "1.1",
     groups: [
