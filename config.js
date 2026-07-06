@@ -1,6 +1,17 @@
-const APP_VERSION = "1.0";
+const APP_VERSION = "1.1";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.1",
+    groups: [
+      {
+        title: "Bestätigungsübersicht (nur Admins)",
+        items: [
+          "Zentrales Trainerprofil (Lizenz + betreute Mannschaft) wird jetzt neben jeder Bestätigung angezeigt, sofern in der Tools-Übersicht gepflegt."
+        ]
+      }
+    ]
+  },
   {
     version: "1.0",
     groups: [

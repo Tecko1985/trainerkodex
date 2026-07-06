@@ -62,6 +62,13 @@ async function fetchMe() {
   return gatewayRequest({ action: "me" });
 }
 
+// Zentrales Trainerprofil (Lizenz + Mannschaften) ALLER Nutzer, nicht nur der
+// eigenen — für die Admin-Übersicht der Bestätigungen (Zeile-Anreicherung).
+async function fetchTrainerProfiles() {
+  const body = await gatewayRequest({ action: "list-trainer-profiles" });
+  return Array.isArray(body.profiles) ? body.profiles : [];
+}
+
 // Serverseitige Prüfung eines Aktions-Passworts (z.B. Bestätigungen löschen). Das
 // Passwort liegt als Worker-Secret im landingpage-Worker, nicht im Quellcode.
 // Bewusst ohne Login-Token (die Aktion ist im Worker nicht an eine Sitzung gebunden).

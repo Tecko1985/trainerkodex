@@ -4,6 +4,7 @@ let currentIsAdmin = false;
 let currentVorname = null;
 let currentNachname = null;
 let sigPad = null;
+let trainerProfiles = []; // zentrale Lizenz/Mannschaft-Profile aller Nutzer (nur für Admin-Übersicht geladen)
 
 function escapeHtml(s) {
   return String(s || "").replace(/[&<>"']/g, (c) => ({
@@ -56,20 +57,29 @@ function showUebersichtError(msg) {
 }
 
 function renderUebersicht() {
+  const profileByUsername = new Map(trainerProfiles.map((p) => [p.username, p]));
   const rows = Object.entries(appData.bestaetigungen || {})
     .map(([username, r]) => Object.assign({ username }, r))
     .sort((a, b) => String(b.datum || "").localeCompare(String(a.datum || "")));
   document.getElementById("uebersicht-empty").style.display = rows.length ? "none" : "block";
   document.getElementById("btn-delete-all").style.display = rows.length ? "" : "none";
-  document.getElementById("uebersicht-rows").innerHTML = rows.map((r) => `
+  document.getElementById("uebersicht-rows").innerHTML = rows.map((r) => {
+    const profil = profileByUsername.get(r.username);
+    const profilHtml = profil
+      ? (profil.lizenz ? `<span class="muted">Lizenz: ${escapeHtml(profil.lizenz)}</span>` : "") +
+        (profil.mannschaften.length ? `<span class="muted">${escapeHtml(profil.mannschaften.join(", "))}</span>` : "")
+      : "";
+    return `
     <div class="confirm-row">
       <div class="confirm-row-info">
         <span class="confirm-name">${escapeHtml(r.vorname + " " + r.nachname)}</span>
         <span class="muted">${escapeHtml(fmtDate(r.datum))}</span>
+        ${profilHtml}
       </div>
       <button type="button" class="btn secondary small btn-delete-row" data-username="${escapeHtml(r.username)}">Löschen</button>
     </div>
-  `).join("");
+  `;
+  }).join("");
 }
 
 function activateTab(name) {
@@ -274,7 +284,10 @@ async function init() {
     startApp();
     renderHeaderUser();
     renderOwnStatus();
-    if (currentIsAdmin) renderUebersicht();
+    if (currentIsAdmin) {
+      trainerProfiles = await fetchTrainerProfiles().catch(() => []);
+      renderUebersicht();
+    }
   } catch (e) {
     if (e instanceof NotLoggedInError) {
       showConnectScreen();
