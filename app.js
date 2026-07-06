@@ -69,11 +69,15 @@ function renderUebersicht() {
       ? (profil.lizenz ? `<span class="muted">Lizenz: ${escapeHtml(profil.lizenz)}</span>` : "") +
         (profil.mannschaften.length ? `<span class="muted">${escapeHtml(profil.mannschaften.join(", "))}</span>` : "")
       : "";
+    // Kein datum => automatisch angelegter Platzhalter: als "offen" markieren.
+    const statusHtml = r.datum
+      ? `<span class="muted">${escapeHtml(fmtDate(r.datum))}</span>`
+      : `<span class="muted" style="color:#c9941f;">offen — noch nicht bestätigt</span>`;
     return `
     <div class="confirm-row">
       <div class="confirm-row-info">
         <span class="confirm-name">${escapeHtml(r.vorname + " " + r.nachname)}</span>
-        <span class="muted">${escapeHtml(fmtDate(r.datum))}</span>
+        ${statusHtml}
         ${profilHtml}
       </div>
       <button type="button" class="btn secondary small btn-delete-row" data-username="${escapeHtml(r.username)}">Löschen</button>
@@ -115,8 +119,11 @@ function renderHeaderUser() {
 
 function renderOwnStatus() {
   const mine = appData.bestaetigungen[currentUsername];
+  // Ein automatisch angelegter Platzhalter (soll:true, ohne datum/Unterschrift) gilt
+  // als NOCH NICHT bestätigt — dann das Formular zeigen, nicht die Bestätigung.
+  const confirmed = mine && mine.datum;
   showFormError("");
-  if (mine) {
+  if (confirmed) {
     document.getElementById("view-form").style.display = "none";
     document.getElementById("view-receipt").style.display = "block";
     document.getElementById("receipt-text").textContent =
@@ -128,8 +135,8 @@ function renderOwnStatus() {
     document.getElementById("view-form").style.display = "block";
     document.getElementById("view-receipt").style.display = "none";
     const fallback = deriveNameFromUsername(currentUsername);
-    document.getElementById("f-vorname").value = currentVorname || fallback.vorname;
-    document.getElementById("f-nachname").value = currentNachname || fallback.nachname;
+    document.getElementById("f-vorname").value = currentVorname || (mine && mine.vorname) || fallback.vorname;
+    document.getElementById("f-nachname").value = currentNachname || (mine && mine.nachname) || fallback.nachname;
   }
 }
 

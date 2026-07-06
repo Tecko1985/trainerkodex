@@ -1,6 +1,17 @@
-const APP_VERSION = "1.1";
+const APP_VERSION = "1.2";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.2",
+    groups: [
+      {
+        title: "Bestätigungsübersicht (nur Admins)",
+        items: [
+          "Automatisch angelegte Trainer (über die zentrale Nutzerverwaltung) erscheinen jetzt als „offen — noch nicht bestätigt“, bis die Person den Kodex selbst bestätigt."
+        ]
+      }
+    ]
+  },
   {
     version: "1.1",
     groups: [
