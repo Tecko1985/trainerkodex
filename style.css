@@ -126,7 +126,7 @@ button.btn:disabled { opacity: 0.6; cursor: default; }
   vertical-align: middle;
   margin-left: 4px;
 }
-.card .version-badge, nav .version-badge { background: var(--blue-light); color: var(--blue); border-color: transparent; }
+.card .version-badge { background: var(--blue-light); color: var(--blue); border-color: transparent; }
 
 #changelog-list { display: flex; flex-direction: column; gap: 8px; }
 .changelog-entry { display: flex; flex-direction: column; gap: 10px; font-size: 13px; }
