@@ -10,7 +10,7 @@
 <body>
 
 <header>
-  <h1>📜 Trainerkodex <span class="version-badge" id="version-badge"></span></h1>
+  <h1>📜 Trainerkodex <span class="version-badge version-badge-link" id="version-badge" role="button" tabindex="0" title="Versionshistorie ansehen"></span></h1>
   <a href="https://tecko1985.github.io/ToolsUebersicht/" class="back-to-dashboard">← Zurück zum Dashboard</a>
   <div class="header-right">
     <span class="header-user" id="header-user"></span>
@@ -86,6 +86,11 @@
         </div>
       </div>
 
+      <div class="card" id="changelog-panel">
+        <h3>Versionshistorie <span class="version-badge" id="version-badge-2"></span></h3>
+        <div id="changelog-list"></div>
+      </div>
+
     </section>
 
     <section class="tab-section" id="tab-einstellungen">
@@ -99,20 +104,15 @@
         <div class="empty-state" id="uebersicht-empty" style="display:none;">Noch keine Bestätigungen.</div>
         <div id="uebersicht-rows"></div>
       </div>
-
-      <div class="card">
-        <h3>Versionshistorie <span class="version-badge" id="version-badge-2"></span></h3>
-        <div id="changelog-list"></div>
-      </div>
     </section>
 
   </main>
 </div>
 
 <script src="kodex-text.js?v=1.0"></script>
-<script src="config.js?v=1.4"></script>
+<script src="config.js?v=1.5"></script>
 <script src="db.js?v=1.1"></script>
 <script src="signature-pad.js?v=1.0"></script>
-<script src="app.js?v=1.4"></script>
+<script src="app.js?v=1.5"></script>
 </body>
 </html>

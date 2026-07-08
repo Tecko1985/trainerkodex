@@ -1,6 +1,17 @@
-const APP_VERSION = "1.4";
+const APP_VERSION = "1.5";
 
 const APP_CHANGELOG = [
+  {
+    version: "1.5",
+    groups: [
+      {
+        title: "Versionsbadge",
+        items: [
+          "Die Versionshistorie ist umgezogen in den Kodex-Tab und damit für alle Nutzer sichtbar, nicht mehr nur für Admins — der Klick auf den Versionshinweis funktioniert jetzt für jeden."
+        ]
+      }
+    ]
+  },
   {
     version: "1.4",
     groups: [
