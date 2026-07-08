@@ -21,6 +21,10 @@ Heiligenstadt.
 ### Bestätigungsübersicht (nur Admins)
 - Liste aller bereits abgegebenen Bestätigungen (Name + Datum) in einem eigenen
   Einstellungen-Tab.
+- Zentrales Trainerprofil (Lizenz + betreute Mannschaft) wird neben jeder
+  Bestätigung angezeigt, sofern in der Tools-Übersicht gepflegt.
+- Automatisch angelegte Trainer (über die zentrale Nutzerverwaltung) erscheinen
+  als „offen — noch nicht bestätigt“, bis die Person den Kodex selbst bestätigt.
 - Einzelne oder alle Bestätigungen löschen, zusätzlich durch ein zentrales
   Aktions-Passwort serverseitig geschützt (nicht nur über die Oberfläche).
 

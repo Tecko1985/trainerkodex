@@ -1,61 +1,6 @@
-const APP_VERSION = "1.5";
+const APP_VERSION = "1.0";
 
 const APP_CHANGELOG = [
-  {
-    version: "1.5",
-    groups: [
-      {
-        title: "Versionsbadge",
-        items: [
-          "Die Versionshistorie ist umgezogen in den Kodex-Tab und damit für alle Nutzer sichtbar, nicht mehr nur für Admins — der Klick auf den Versionshinweis funktioniert jetzt für jeden."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.4",
-    groups: [
-      {
-        title: "Versionsbadge",
-        items: [
-          "Der Versionshinweis oben neben dem Titel ist für Admins jetzt anklickbar und führt direkt zu dieser Änderungsübersicht im Einstellungen-Tab."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.3",
-    groups: [
-      {
-        title: "Einstellungen",
-        items: [
-          "Doppelte Versionsanzeige im Einstellungen-Button entfernt."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.2",
-    groups: [
-      {
-        title: "Bestätigungsübersicht (nur Admins)",
-        items: [
-          "Automatisch angelegte Trainer (über die zentrale Nutzerverwaltung) erscheinen jetzt als „offen — noch nicht bestätigt“, bis die Person den Kodex selbst bestätigt."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.1",
-    groups: [
-      {
-        title: "Bestätigungsübersicht (nur Admins)",
-        items: [
-          "Zentrales Trainerprofil (Lizenz + betreute Mannschaft) wird jetzt neben jeder Bestätigung angezeigt, sofern in der Tools-Übersicht gepflegt."
-        ]
-      }
-    ]
-  },
   {
     version: "1.0",
     groups: [
@@ -76,8 +21,16 @@ const APP_CHANGELOG = [
       {
         title: "Bestätigungsübersicht (nur Admins)",
         items: [
-          "Übersicht aller abgegebenen Bestätigungen in einem eigenen Einstellungen-Tab.",
+          "Übersicht aller abgegebenen Bestätigungen (Name + Datum) in einem eigenen Einstellungen-Tab.",
+          "Zentrales Trainerprofil (Lizenz + betreute Mannschaft) wird neben jeder Bestätigung angezeigt, sofern in der Tools-Übersicht gepflegt.",
+          "Automatisch angelegte Trainer (über die zentrale Nutzerverwaltung) erscheinen als „offen — noch nicht bestätigt“, bis die Person den Kodex selbst bestätigt.",
           "Einzelne oder alle Bestätigungen löschen, zusätzlich durch ein zentrales Aktions-Passwort serverseitig geschützt."
+        ]
+      },
+      {
+        title: "Versionshistorie",
+        items: [
+          "Der Versionshinweis oben neben dem Titel ist für alle Nutzer anklickbar und führt direkt zu dieser Änderungsübersicht im Kodex-Tab."
         ]
       },
       {
