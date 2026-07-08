@@ -99,6 +99,18 @@ function setupTabs() {
   document.querySelectorAll("nav button[data-tab]").forEach((btn) => {
     btn.addEventListener("click", () => activateTab(btn.dataset.tab));
   });
+
+  // Wie der Einstellungen-Nav-Button selbst ist auch dieser Sprung dorthin nur für
+  // Admins aktiv — die Bestätigungsübersicht in diesem Tab ist bewusst admin-only,
+  // siehe currentIsAdmin-Gate in init(). currentIsAdmin wird hier live gelesen
+  // (nicht zum Registrierungszeitpunkt erfasst), da setupTabs() bereits vor dem
+  // Login-Roundtrip läuft.
+  const versionBadgeHeader = document.getElementById("version-badge");
+  versionBadgeHeader.addEventListener("click", () => { if (currentIsAdmin) activateTab("einstellungen"); });
+  versionBadgeHeader.addEventListener("keydown", (e) => {
+    if (!currentIsAdmin) return;
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activateTab("einstellungen"); }
+  });
 }
 
 function showFormError(msg) {
@@ -285,6 +297,13 @@ async function init() {
     currentVorname = me.vorname || null;
     currentNachname = me.nachname || null;
     document.getElementById("nav-einstellungen").style.display = currentIsAdmin ? "" : "none";
+    if (currentIsAdmin) {
+      const versionBadgeHeader = document.getElementById("version-badge");
+      versionBadgeHeader.classList.add("version-badge-link");
+      versionBadgeHeader.setAttribute("role", "button");
+      versionBadgeHeader.setAttribute("tabindex", "0");
+      versionBadgeHeader.setAttribute("title", "Versionshistorie ansehen");
+    }
     appData = data && typeof data === "object" ? data : { bestaetigungen: {} };
     if (!appData.bestaetigungen) appData.bestaetigungen = {};
     startApp();
